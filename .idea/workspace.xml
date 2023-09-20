@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Services/Slug.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/product/slug.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ProductController.php" afterDir="false" />
     </list>
@@ -20,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/symfony-setup" />
+        <entry key="$PROJECT_DIR$" value="feature/demo-pages" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,6 +36,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/slug" />
+                    <option name="lastUsedInstant" value="1695218250" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/demo-pages" />
                     <option name="lastUsedInstant" value="1695214620" />
@@ -182,7 +189,6 @@
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
-      <path value="$PROJECT_DIR$/vendor/twig/intl-extra" />
     </include_path>
   </component>
   <component name="ProjectId" id="2Vezr573z3Fdr6qlJhDJOP8IJ3b" />
@@ -219,7 +225,7 @@
       <updated>1695211529763</updated>
       <workItem from="1695211530869" duration="1840000" />
       <workItem from="1695213406994" duration="1109000" />
-      <workItem from="1695214544312" duration="1182000" />
+      <workItem from="1695214544312" duration="4410000" />
     </task>
     <servers />
   </component>
