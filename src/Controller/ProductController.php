@@ -9,8 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'app_product')]
-
-    public function listProducts (): Response
+    public function listProducts(): Response
     {
         return $this->render('product/index.html.twig', [
             'controller_name' => 'ProductController',
@@ -18,7 +17,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'product_view')]
-    public function viewProduct ($id): Response
+    public function viewProduct(int $id): Response
     {
         return $this->render('product/view.html.twig', [
             'controller_name' => 'ProductController',
