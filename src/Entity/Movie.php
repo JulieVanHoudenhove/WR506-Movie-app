@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[ApiResource()]
 class Movie
 {
     #[ORM\Id]
@@ -25,8 +27,8 @@ class Movie
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $duration = null;
+    #[ORM\Column]
+    private ?int $duration = null;
 
     #[ORM\ManyToMany(targetEntity: actor::class, inversedBy: 'movies')]
     private Collection $actor;
@@ -92,12 +94,12 @@ class Movie
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(string $category): static
+    public function setCategory(Category $category): static
     {
         $this->category = $category;
 
