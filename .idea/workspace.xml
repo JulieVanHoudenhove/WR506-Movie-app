@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Actor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Actor.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Nationality.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Nationality.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/api-platform-1" />
+        <entry key="$PROJECT_DIR$" value="feature/api-platform-2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,6 +34,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/constraint" />
+                    <option name="lastUsedInstant" value="1695737344" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/api-platform-2" />
                     <option name="lastUsedInstant" value="1695708940" />
@@ -244,7 +246,7 @@
       <workItem from="1695656098215" duration="1093000" />
       <workItem from="1695707720130" duration="1029000" />
       <workItem from="1695708776404" duration="4808000" />
-      <workItem from="1695734803955" duration="1316000" />
+      <workItem from="1695734803955" duration="4221000" />
     </task>
     <servers />
   </component>

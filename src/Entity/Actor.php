@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
 #[ApiResource(
@@ -24,10 +25,12 @@ class Actor
 
     #[ORM\Column(length: 255)]
     #[Groups(['movie:read', 'actor:read'])]
+    #[Assert\NotBlank(message: 'The firstname is necessary')]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['movie:read', 'actor:read'])]
+    #[Assert\NotBlank(message: 'The lastname is necessary')]
     private ?string $lastName = null;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'actor')]
