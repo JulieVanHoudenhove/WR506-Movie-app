@@ -35,9 +35,11 @@ class Movie
     private ?int $duration = null;
 
     #[ORM\ManyToMany(targetEntity: actor::class, inversedBy: 'movies')]
+    #[Groups(['movie:read'])]
     private Collection $actor;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
+    #[Groups(['movie:read'])]
     private ?category $category = null;
 
     public function __construct()

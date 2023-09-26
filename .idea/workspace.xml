@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Actor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Actor.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/demo-pages" />
+        <entry key="$PROJECT_DIR$" value="feature/api-platform-1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,6 +34,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/api-platform-2" />
+                    <option name="lastUsedInstant" value="1695708940" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/slug" />
                     <option name="lastUsedInstant" value="1695218250" />
@@ -235,7 +240,8 @@
       <workItem from="1695213406994" duration="1109000" />
       <workItem from="1695214544312" duration="4410000" />
       <workItem from="1695656098215" duration="1093000" />
-      <workItem from="1695707720130" duration="614000" />
+      <workItem from="1695707720130" duration="1029000" />
+      <workItem from="1695708776404" duration="274000" />
     </task>
     <servers />
   </component>
