@@ -39,6 +39,7 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
+            CategoryFixtures::class,
             ActorFixtures::class,
         ];
     }

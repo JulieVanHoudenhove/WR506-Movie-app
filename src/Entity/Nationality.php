@@ -7,9 +7,10 @@ use App\Repository\NationalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NationalityRepository::class)]
-#[ApiResource]
+#[ApiResource()]
 class Nationality
 {
     #[ORM\Id]
@@ -18,6 +19,7 @@ class Nationality
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['actor:read'])]
     private ?string $nationality = null;
 
     #[ORM\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]
