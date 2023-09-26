@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
@@ -26,6 +28,7 @@ class Movie
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'The title is necessary')]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
