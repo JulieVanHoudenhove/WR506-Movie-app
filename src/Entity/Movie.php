@@ -10,7 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: [
+        'groups' => ['movie:read'],
+    ]
+)]
 class Movie
 {
     #[ORM\Id]
