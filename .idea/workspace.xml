@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/api-platform-2" />
+        <entry key="$PROJECT_DIR$" value="feature/constraint" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,6 +33,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/security" />
+                    <option name="lastUsedInstant" value="1695893149" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/constraint" />
                     <option name="lastUsedInstant" value="1695737344" />
@@ -48,10 +52,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/demo-pages" />
                     <option name="lastUsedInstant" value="1695214620" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/symfony-setup" />
-                    <option name="lastUsedInstant" value="1695214619" />
                   </RecentBranch>
                 </list>
               </option>
@@ -246,7 +246,7 @@
       <workItem from="1695707720130" duration="1029000" />
       <workItem from="1695708776404" duration="4808000" />
       <workItem from="1695734803955" duration="4969000" />
-      <workItem from="1695892206068" duration="815000" />
+      <workItem from="1695892206068" duration="2661000" />
     </task>
     <servers />
   </component>
