@@ -9,6 +9,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
@@ -24,18 +27,22 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The title is necessary')]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 50, minMessage: 'The movie description should be 50 characters minimum')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column]
+    #[Assert\Length(min: 15, minMessage: 'The movie should be 15 minutes minimum')]
     private ?int $duration = null;
 
-    #[ORM\ManyToMany(targetEntity: actor::class, inversedBy: 'movies')]
+    #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]
     #[Groups(['movie:read'])]
     private Collection $actor;
 
@@ -114,14 +121,14 @@ class Movie
     }
 
     /**
-     * @return Collection<int, actor>
+     * @return Collection<int, Actor>
      */
     public function getActor(): Collection
     {
         return $this->actor;
     }
 
-    public function addActor(actor $actor): static
+    public function addActor(Actor $actor): static
     {
         if (!$this->actor->contains($actor)) {
             $this->actor->add($actor);
@@ -130,7 +137,7 @@ class Movie
         return $this;
     }
 
-    public function removeActor(actor $actor): static
+    public function removeActor(Actor $actor): static
     {
         $this->actor->removeElement($actor);
 
