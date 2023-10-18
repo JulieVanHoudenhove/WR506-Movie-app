@@ -59,6 +59,10 @@ class Movie
     #[Groups(['movie:read'])]
     private ?user $User = null;
 
+    #[ORM\Column]
+    #[Groups(['movie:read'])]
+    private ?bool $online = null;
+
     public function __construct()
     {
         $this->actor = new ArrayCollection();
@@ -161,6 +165,18 @@ class Movie
     public function setUser(?user $User): static
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function isOnline(): ?bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(bool $online): static
+    {
+        $this->online = $online;
 
         return $this;
     }
