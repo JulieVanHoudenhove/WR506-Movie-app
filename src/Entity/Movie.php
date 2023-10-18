@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
@@ -19,6 +20,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
         'groups' => ['movie:read'],
     ]
 )]
+#[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
 class Movie
 {
     #[ORM\Id]
@@ -58,6 +60,10 @@ class Movie
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[Groups(['movie:read'])]
     private ?user $User = null;
+
+    #[ORM\Column]
+    #[Groups(['movie:read'])]
+    private ?bool $online = null;
 
     public function __construct()
     {
@@ -161,6 +167,18 @@ class Movie
     public function setUser(?user $User): static
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function isOnline(): ?bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(bool $online): static
+    {
+        $this->online = $online;
 
         return $this;
     }
