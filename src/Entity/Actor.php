@@ -21,6 +21,7 @@ class Actor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -34,6 +35,7 @@ class Actor
     private ?string $lastName = null;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'actor')]
+    #[Groups(['actor:read'])]
     private Collection $movies;
 
     #[ORM\ManyToOne(inversedBy: 'actors')]

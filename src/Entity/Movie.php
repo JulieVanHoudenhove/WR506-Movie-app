@@ -24,22 +24,27 @@ class Movie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['movie:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'The title is necessary')]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 50, minMessage: 'The movie description should be 50 characters minimum')]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column]
     #[Assert\Length(min: 15, minMessage: 'The movie should be 15 minutes minimum')]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?int $duration = null;
 
     #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]
@@ -49,6 +54,10 @@ class Movie
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[Groups(['movie:read'])]
     private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'movies')]
+    #[Groups(['movie:read'])]
+    private ?user $User = null;
 
     public function __construct()
     {
@@ -140,6 +149,18 @@ class Movie
     public function removeActor(Actor $actor): static
     {
         $this->actor->removeElement($actor);
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->User;
+    }
+
+    public function setUser(?user $User): static
+    {
+        $this->User = $User;
 
         return $this;
     }
