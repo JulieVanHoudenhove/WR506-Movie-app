@@ -59,7 +59,7 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[Groups(['movie:read'])]
-    private ?user $User = null;
+    private ?user $user = null;
 
     #[ORM\Column]
     #[Groups(['movie:read'])]
@@ -164,9 +164,9 @@ class Movie
         return $this->User;
     }
 
-    public function setUser(?user $User): static
+    public function setUser(?user $user): static
     {
-        $this->User = $User;
+        $this->User = $user;
 
         return $this;
     }
