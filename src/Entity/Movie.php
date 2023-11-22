@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
@@ -19,12 +20,13 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
         'groups' => ['movie:read'],
     ]
 )]
+#[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
 class Movie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

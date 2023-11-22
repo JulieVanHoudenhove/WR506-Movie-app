@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\NationalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NationalityRepository::class)]
@@ -20,7 +20,7 @@ class Nationality
 
     #[ORM\Column(length: 255)]
     #[Groups(['actor:read'])]
-    private ?string $nationality = null;
+    private ?string $pays = null;
 
     #[ORM\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]
     private Collection $actors;
@@ -35,14 +35,14 @@ class Nationality
         return $this->id;
     }
 
-    public function getNationality(): ?string
+    public function getPays(): ?string
     {
-        return $this->nationality;
+        return $this->pays;
     }
 
-    public function setNationality(string $nationality): static
+    public function setPays(string $pays): static
     {
-        $this->nationality = $nationality;
+        $this->pays = $pays;
 
         return $this;
     }

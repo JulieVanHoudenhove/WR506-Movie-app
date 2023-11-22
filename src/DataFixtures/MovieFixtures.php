@@ -45,4 +45,3 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 }
-
