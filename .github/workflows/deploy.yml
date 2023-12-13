@@ -14,9 +14,4 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-          cd public_html/democd/ 
-          git clone git@github.com:JulieVanHoudenhove/WR506.git
-          cd WR506
-          git pull
-          composer install
-          php bin/console c:c
+          pwd
