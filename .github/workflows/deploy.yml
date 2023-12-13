@@ -14,5 +14,5 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-          cd mmi21f15/pulic_html/travaux
+          cd ../mmi21f15/pulic_html/travaux
           pwd
