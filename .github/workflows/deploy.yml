@@ -6,7 +6,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Demo LS on MMI VPS
+    - name: Deploy project on MMI VPS
       uses: appleboy/ssh-action@master
       with:
         HOST: ${{ secrets.HOST }}
@@ -14,4 +14,5 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
+          cd mmi21f15/pulic_html/travaux
           pwd
