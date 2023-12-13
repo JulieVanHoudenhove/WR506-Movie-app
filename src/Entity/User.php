@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -18,6 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(message: 'L\'email {{ value }} n\'est pas valide')]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -31,6 +33,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Movie::class)]
     private Collection $movies;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Type('string')]
+    #[Assert\NotNull(message: 'The username is necessary')]
+    #[Assert\Length(min: 3, minMessage: 'The username should be 3 characters minimum')]
+    #[Assert\Regex(pattern: '/^[a-zA-Z0-9_]+$/', message: 'The username should contain only letters, numbers and underscores')]
+    private ?string $username = null;
 
     public function __construct()
     {
@@ -133,6 +142,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $movie->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
 
         return $this;
     }
