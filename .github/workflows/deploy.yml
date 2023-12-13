@@ -6,7 +6,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    
     - name: Demo LS on MMI VPS
       uses: appleboy/ssh-action@master
       with:
@@ -14,4 +13,10 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script : ls && pwd
+        script: |
+          cd public_html/democd/ 
+          git clone git@github.com:JulieVanHoudenhove/WR506.git
+          cd WR506
+          git pull
+          composer install
+          php bin/console c:c
