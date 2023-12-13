@@ -14,5 +14,5 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
-          cd public_html/
+          cd public_html/travaux/
           ls
