@@ -15,11 +15,13 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
         // $manager->persist($product);
         $firstNames = ['John', 'Jane', 'Jack', 'Jill', 'Jim', 'Jenny', 'Joe', 'Jade', 'Jules', 'Jasper'];
         $lastNames = ['Doe', 'Float', 'Black', 'White', 'Green', 'Red', 'Blue', 'Yellow', 'Orange', 'Purple'];
+        $rewards= ['Oscar', 'Golden Globe', 'César', 'Palme d\'or', 'Lion d\'or', 'Prix d\'interprétation masculine', 'Prix d\'interprétation féminine', 'Prix d\'interprétation masculine', 'Prix d\'interprétation féminine', 'Prix d\'interprétation masculine'];
 
         foreach (range(1, 10) as $i) {
             $actor = new Actor();
             $actor->setfirstName($firstNames[rand(0, 9)]);
             $actor->setlastName($lastNames[rand(0, 9)]);
+            $actor->setreward($rewards[rand(0, 9)]);
             $actor->setNationality($this->getReference('nationality_' . rand(1, 10)));
             $this->addReference('actor_' . $i, $actor);
 
