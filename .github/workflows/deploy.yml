@@ -20,3 +20,5 @@ jobs:
           git pull
           composer install
           php bin/console c:c
+          php bin/console doctrine:database:create
+          php bin/console doctrine:migrations:migrate
