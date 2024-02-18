@@ -78,10 +78,6 @@ class Movie
     #[Groups(['movie:read'])]
     private ?bool $online = null;
 
-    #[ORM\Column]
-    #[Groups(['movie:read'])]
-    private ?bool $online = null;
-
     #[ORM\Column(nullable: true)]
     #[Assert\Type('float')]
     #[Assert\Range(notInRangeMessage: 'The note should be between {{ min }} and {{ max }}', min: 0, max: 10)]
@@ -202,24 +198,12 @@ class Movie
 
     public function getUser(): ?user
     {
-        return $this->User;
+        return $this->user;
     }
 
     public function setUser(?user $user): static
     {
-        $this->User = $user;
-
-        return $this;
-    }
-
-    public function isOnline(): ?bool
-    {
-        return $this->online;
-    }
-
-    public function setOnline(bool $online): static
-    {
-        $this->online = $online;
+        $this->user = $user;
 
         return $this;
     }
