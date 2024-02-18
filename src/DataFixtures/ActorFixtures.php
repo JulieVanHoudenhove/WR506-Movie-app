@@ -15,7 +15,7 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new \Xylis\FakerCinema\Provider\Person($faker));
 
-        foreach (range(1, 60) as $i) {
+        foreach (range(1, 20) as $i) {
             $actor = new Actor();
             $fullname = $faker->unique()->actor;
             $actor->setfirstName(substr($fullname, 0, strpos($fullname, ' ')));
