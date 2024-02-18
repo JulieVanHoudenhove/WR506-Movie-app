@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ActorFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ActorFixtures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +35,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/create-update-password" />
+                    <option name="lastUsedInstant" value="1708264373" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/fixtures-faker" />
                     <option name="lastUsedInstant" value="1708256344" />
                   </RecentBranch>
@@ -50,10 +53,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/security" />
                     <option name="lastUsedInstant" value="1697612231" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1697612214" />
                   </RecentBranch>
                 </list>
               </option>
@@ -228,7 +227,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/fixtures-faker",
+    "git-widget-placeholder": "feature/create-update-password",
     "last_opened_file_path": "C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -274,7 +273,7 @@
       <workItem from="1697460693428" duration="2498000" />
       <workItem from="1697611453466" duration="857000" />
       <workItem from="1702885332959" duration="263000" />
-      <workItem from="1708252090026" duration="7159000" />
+      <workItem from="1708252090026" duration="8576000" />
     </task>
     <servers />
   </component>
