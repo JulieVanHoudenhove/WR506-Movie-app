@@ -35,5 +35,4 @@ class ProductController extends AbstractController
             'id' => $id
         ]);
     }
-
 }

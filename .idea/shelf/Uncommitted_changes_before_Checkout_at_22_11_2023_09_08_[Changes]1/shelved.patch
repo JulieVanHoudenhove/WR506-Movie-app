@@ -1,0 +1,104 @@
+Index: src/Entity/Nationality.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\nnamespace App\\Entity;\n\nuse ApiPlatform\\Metadata\\ApiResource;\nuse App\\Repository\\NationalityRepository;\nuse Doctrine\\Common\\Collections\\ArrayCollection;\nuse Doctrine\\Common\\Collections\\Collection;\nuse Doctrine\\ORM\\Mapping as ORM;\nuse Symfony\\Component\\Serializer\\Annotation\\Groups;\n\n#[ORM\\Entity(repositoryClass: NationalityRepository::class)]\n#[ApiResource()]\nclass Nationality\n{\n    #[ORM\\Id]\n    #[ORM\\GeneratedValue]\n    #[ORM\\Column]\n    private ?int $id = null;\n\n    #[ORM\\Column(length: 255)]\n    #[Groups(['actor:read'])]\n    private ?string $nationality = null;\n\n    #[ORM\\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]\n    private Collection $actors;\n\n    public function __construct()\n    {\n        $this->actors = new ArrayCollection();\n    }\n\n    public function getId(): ?int\n    {\n        return $this->id;\n    }\n\n    public function getNationality(): ?string\n    {\n        return $this->nationality;\n    }\n\n    public function setNationality(string $nationality): static\n    {\n        $this->nationality = $nationality;\n\n        return $this;\n    }\n\n    /**\n     * @return Collection<int, Actor>\n     */\n    public function getActors(): Collection\n    {\n        return $this->actors;\n    }\n\n    public function addActor(Actor $actor): static\n    {\n        if (!$this->actors->contains($actor)) {\n            $this->actors->add($actor);\n            $actor->setNationality($this);\n        }\n\n        return $this;\n    }\n\n    public function removeActor(Actor $actor): static\n    {\n        if ($this->actors->removeElement($actor)) {\n            // set the owning side to null (unless already changed)\n            if ($actor->getNationality() === $this) {\n                $actor->setNationality(null);\n            }\n        }\n\n        return $this;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Entity/Nationality.php b/src/Entity/Nationality.php
+--- a/src/Entity/Nationality.php	
++++ b/src/Entity/Nationality.php	
+@@ -2,13 +2,14 @@
+ 
+ namespace App\Entity;
+ 
+-use ApiPlatform\Metadata\ApiResource;
+ use App\Repository\NationalityRepository;
+ use Doctrine\Common\Collections\ArrayCollection;
+ use Doctrine\Common\Collections\Collection;
+ use Doctrine\ORM\Mapping as ORM;
++use ApiPlatform\Metadata\ApiResource;
+ use Symfony\Component\Serializer\Annotation\Groups;
+ 
++
+ #[ORM\Entity(repositoryClass: NationalityRepository::class)]
+ #[ApiResource()]
+ class Nationality
+@@ -20,7 +21,7 @@
+ 
+     #[ORM\Column(length: 255)]
+     #[Groups(['actor:read'])]
+-    private ?string $nationality = null;
++    private ?string $pays = null;
+ 
+     #[ORM\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]
+     private Collection $actors;
+@@ -35,14 +36,14 @@
+         return $this->id;
+     }
+ 
+-    public function getNationality(): ?string
++    public function getPays(): ?string
+     {
+-        return $this->nationality;
++        return $this->pays;
+     }
+ 
+-    public function setNationality(string $nationality): static
++    public function setPays(string $pays): static
+     {
+-        $this->nationality = $nationality;
++        $this->pays = $pays;
+ 
+         return $this;
+     }
+@@ -76,4 +77,4 @@
+ 
+         return $this;
+     }
+-}
++}
+\ No newline at end of file
+Index: src/Entity/Movie.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\nnamespace App\\Entity;\n\nuse App\\Repository\\MovieRepository;\nuse Doctrine\\Common\\Collections\\ArrayCollection;\nuse Doctrine\\Common\\Collections\\Collection;\nuse Doctrine\\DBAL\\Types\\Types;\nuse Doctrine\\ORM\\Mapping as ORM;\nuse ApiPlatform\\Metadata\\ApiResource;\nuse Symfony\\Component\\Serializer\\Annotation\\Groups;\nuse Symfony\\Component\\Validator\\Constraints as Assert;\nuse ApiPlatform\\Metadata\\ApiFilter;\nuse ApiPlatform\\Doctrine\\Orm\\Filter\\SearchFilter;\nuse ApiPlatform\\Doctrine\\Orm\\Filter\\BooleanFilter;\n\n#[ORM\\Entity(repositoryClass: MovieRepository::class)]\n#[ApiResource(\n    normalizationContext: [\n        'groups' => ['movie:read'],\n    ]\n)]\n#[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]\nclass Movie\n{\n    #[ORM\\Id]\n    #[ORM\\GeneratedValue]\n    #[ORM\\Column]\n    #[Groups(['movie:read'])]\n    private ?int $id = null;\n\n    #[ORM\\Column(length: 255)]\n    #[Assert\\NotBlank(message: 'The title is necessary')]\n    #[ApiFilter(SearchFilter::class, strategy: 'partial')]\n    #[Groups(['movie:read', 'actor:read'])]\n    private ?string $title = null;\n\n    #[ORM\\Column(length: 255)]\n    #[Assert\\Length(min: 50, minMessage: 'The movie description should be 50 characters minimum')]\n    #[Groups(['movie:read', 'actor:read'])]\n    private ?string $description = null;\n\n    #[ORM\\Column(type: Types::DATETIME_MUTABLE)]\n    #[Groups(['movie:read', 'actor:read'])]\n    private ?\\DateTimeInterface $releaseDate = null;\n\n    #[ORM\\Column]\n    #[Assert\\Length(min: 15, minMessage: 'The movie should be 15 minutes minimum')]\n    #[Groups(['movie:read', 'actor:read'])]\n    private ?int $duration = null;\n\n    #[ORM\\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]\n    #[Groups(['movie:read'])]\n    private Collection $actor;\n\n    #[ORM\\ManyToOne(inversedBy: 'movies')]\n    #[Groups(['movie:read'])]\n    private ?Category $category = null;\n\n    #[ORM\\ManyToOne(inversedBy: 'movies')]\n    #[Groups(['movie:read'])]\n    private ?user $User = null;\n\n    #[ORM\\Column]\n    #[Groups(['movie:read'])]\n    private ?bool $online = null;\n\n    public function __construct()\n    {\n        $this->actor = new ArrayCollection();\n    }\n\n    public function getId(): ?int\n    {\n        return $this->id;\n    }\n\n    public function getTitle(): ?string\n    {\n        return $this->title;\n    }\n\n    public function setTitle(string $title): static\n    {\n        $this->title = $title;\n\n        return $this;\n    }\n\n    public function getDescription(): ?string\n    {\n        return $this->description;\n    }\n\n    public function setDescription(string $description): static\n    {\n        $this->description = $description;\n\n        return $this;\n    }\n\n    public function getReleaseDate(): ?\\DateTimeInterface\n    {\n        return $this->releaseDate;\n    }\n\n    public function setReleaseDate(\\DateTimeInterface $releaseDate): static\n    {\n        $this->releaseDate = $releaseDate;\n\n        return $this;\n    }\n\n    public function getDuration(): ?string\n    {\n        return $this->duration;\n    }\n\n    public function setDuration(string $duration): static\n    {\n        $this->duration = $duration;\n\n        return $this;\n    }\n\n    public function getCategory(): ?Category\n    {\n        return $this->category;\n    }\n\n    public function setCategory(Category $category): static\n    {\n        $this->category = $category;\n\n        return $this;\n    }\n\n    /**\n     * @return Collection<int, Actor>\n     */\n    public function getActor(): Collection\n    {\n        return $this->actor;\n    }\n\n    public function addActor(Actor $actor): static\n    {\n        if (!$this->actor->contains($actor)) {\n            $this->actor->add($actor);\n        }\n\n        return $this;\n    }\n\n    public function removeActor(Actor $actor): static\n    {\n        $this->actor->removeElement($actor);\n\n        return $this;\n    }\n\n    public function getUser(): ?user\n    {\n        return $this->User;\n    }\n\n    public function setUser(?user $User): static\n    {\n        $this->User = $User;\n\n        return $this;\n    }\n\n    public function isOnline(): ?bool\n    {\n        return $this->online;\n    }\n\n    public function setOnline(bool $online): static\n    {\n        $this->online = $online;\n\n        return $this;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Entity/Movie.php b/src/Entity/Movie.php
+--- a/src/Entity/Movie.php	
++++ b/src/Entity/Movie.php	
+@@ -26,7 +26,7 @@
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+     #[ORM\Column]
+-    #[Groups(['movie:read'])]
++    #[Groups(['movie:read', 'actor:read'])]
+     private ?int $id = null;
+ 
+     #[ORM\Column(length: 255)]
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_18_10_2023_08_14_[Changes]" date="1697609675237" recycled="false" toDelete="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 18/10/2023 08:14 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_18_10_2023_08_14_[Changes]1" date="1697609752281" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14_[Changes]1/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 18/10/2023 08:14 [Changes]" />
+-</changelist>
+\ No newline at end of file

@@ -13,6 +13,18 @@
       <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DemoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DemoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SecurityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SecurityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/NationalityFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/NationalityFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/LoginAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginAuthenticator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/Slug.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/Slug.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +38,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/constraint" />
+        <entry key="$PROJECT_DIR$" value="feature/filter-and-sort" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,8 +52,16 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1700640539" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/security" />
-                    <option name="lastUsedInstant" value="1695893149" />
+                    <option name="lastUsedInstant" value="1697612231" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="develop" />
+                    <option name="lastUsedInstant" value="1697612214" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/constraint" />
@@ -50,14 +70,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/api-platform-2" />
                     <option name="lastUsedInstant" value="1695708940" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/slug" />
-                    <option name="lastUsedInstant" value="1695218250" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/demo-pages" />
-                    <option name="lastUsedInstant" value="1695214620" />
                   </RecentBranch>
                 </list>
               </option>
@@ -239,6 +251,19 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }]]></component>
   <component name="RecentsManager">
@@ -274,6 +299,8 @@
       <workItem from="1697449841239" duration="13000" />
       <workItem from="1697449890064" duration="905000" />
       <workItem from="1697460693428" duration="2498000" />
+      <workItem from="1697611453466" duration="857000" />
+      <workItem from="1700641442265" duration="5911000" />
     </task>
     <servers />
   </component>
