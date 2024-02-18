@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
@@ -28,12 +29,13 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 #[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
 #[GetCollection]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
+#[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
 class Movie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['movie:read'])]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -70,7 +72,11 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[Groups(['movie:read'])]
-    private ?user $User = null;
+    private ?user $user = null;
+
+    #[ORM\Column]
+    #[Groups(['movie:read'])]
+    private ?bool $online = null;
 
     #[ORM\Column]
     #[Groups(['movie:read'])]
@@ -199,9 +205,21 @@ class Movie
         return $this->User;
     }
 
-    public function setUser(?user $User): static
+    public function setUser(?user $user): static
     {
-        $this->User = $User;
+        $this->User = $user;
+
+        return $this;
+    }
+
+    public function isOnline(): ?bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(bool $online): static
+    {
+        $this->online = $online;
 
         return $this;
     }
