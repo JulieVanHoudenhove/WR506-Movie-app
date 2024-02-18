@@ -54,6 +54,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/asserts" />
+                    <option name="lastUsedInstant" value="1702460035" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/create-update-password" />
                     <option name="lastUsedInstant" value="1708264373" />
                   </RecentBranch>
@@ -61,7 +65,7 @@
                     <option name="branchName" value="feature/fixtures-faker" />
                     <option name="lastUsedInstant" value="1708256344" />
                     <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1700640539" />
+                    <option name="lastUsedInstant" value="1702459816" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/security" />
