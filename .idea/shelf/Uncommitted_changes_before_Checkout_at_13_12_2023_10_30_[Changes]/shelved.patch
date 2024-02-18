@@ -1,0 +1,217 @@
+Index: src/Entity/Nationality.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Entity;\r\n\r\nuse ApiPlatform\\Metadata\\ApiResource;\r\nuse App\\Repository\\NationalityRepository;\r\nuse Doctrine\\Common\\Collections\\ArrayCollection;\r\nuse Doctrine\\Common\\Collections\\Collection;\r\nuse Doctrine\\ORM\\Mapping as ORM;\r\nuse Symfony\\Component\\Serializer\\Annotation\\Groups;\r\n\r\n#[ORM\\Entity(repositoryClass: NationalityRepository::class)]\r\n#[ApiResource()]\r\nclass Nationality\r\n{\r\n    #[ORM\\Id]\r\n    #[ORM\\GeneratedValue]\r\n    #[ORM\\Column]\r\n    private ?int $id = null;\r\n\r\n    #[ORM\\Column(length: 255)]\r\n    #[Groups(['actor:read'])]\r\n    private ?string $nationality = null;\r\n\r\n    #[ORM\\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]\r\n    private Collection $actors;\r\n\r\n    public function __construct()\r\n    {\r\n        $this->actors = new ArrayCollection();\r\n    }\r\n\r\n    public function getId(): ?int\r\n    {\r\n        return $this->id;\r\n    }\r\n\r\n    public function getNationality(): ?string\r\n    {\r\n        return $this->nationality;\r\n    }\r\n\r\n    public function setNationality(string $nationality): static\r\n    {\r\n        $this->nationality = $nationality;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection<int, Actor>\r\n     */\r\n    public function getActors(): Collection\r\n    {\r\n        return $this->actors;\r\n    }\r\n\r\n    public function addActor(Actor $actor): static\r\n    {\r\n        if (!$this->actors->contains($actor)) {\r\n            $this->actors->add($actor);\r\n            $actor->setNationality($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeActor(Actor $actor): static\r\n    {\r\n        if ($this->actors->removeElement($actor)) {\r\n            // set the owning side to null (unless already changed)\r\n            if ($actor->getNationality() === $this) {\r\n                $actor->setNationality(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Entity/Nationality.php b/src/Entity/Nationality.php
+--- a/src/Entity/Nationality.php	
++++ b/src/Entity/Nationality.php	
+@@ -8,6 +8,7 @@
+ use Doctrine\Common\Collections\Collection;
+ use Doctrine\ORM\Mapping as ORM;
+ use Symfony\Component\Serializer\Annotation\Groups;
++use Symfony\Component\Validator\Constraints as Assert;
+ 
+ #[ORM\Entity(repositoryClass: NationalityRepository::class)]
+ #[ApiResource()]
+@@ -20,6 +21,7 @@
+ 
+     #[ORM\Column(length: 255)]
+     #[Groups(['actor:read'])]
++    #[Assert\NotNull]
+     private ?string $nationality = null;
+ 
+     #[ORM\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]
+Index: src/Entity/Movie.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Entity;\r\n\r\nuse App\\Repository\\MovieRepository;\r\nuse Doctrine\\Common\\Collections\\ArrayCollection;\r\nuse Doctrine\\Common\\Collections\\Collection;\r\nuse Doctrine\\DBAL\\Types\\Types;\r\nuse Doctrine\\ORM\\Mapping as ORM;\r\nuse ApiPlatform\\Metadata\\ApiResource;\r\nuse Symfony\\Component\\Serializer\\Annotation\\Groups;\r\nuse Symfony\\Component\\Validator\\Constraints as Assert;\r\nuse ApiPlatform\\Metadata\\ApiFilter;\r\nuse ApiPlatform\\Doctrine\\Orm\\Filter\\SearchFilter;\r\n\r\n#[ORM\\Entity(repositoryClass: MovieRepository::class)]\r\n#[ApiResource(\r\n    normalizationContext: [\r\n        'groups' => ['movie:read'],\r\n    ]\r\n)]\r\nclass Movie\r\n{\r\n    #[ORM\\Id]\r\n    #[ORM\\GeneratedValue]\r\n    #[ORM\\Column]\r\n    #[Groups(['movie:read'])]\r\n    private ?int $id = null;\r\n\r\n    #[ORM\\Column(length: 255)]\r\n    #[Assert\\NotBlank(message: 'The title is necessary')]\r\n    #[ApiFilter(SearchFilter::class, strategy: 'partial')]\r\n    #[Groups(['movie:read', 'actor:read'])]\r\n    private ?string $title = null;\r\n\r\n    #[ORM\\Column(length: 255)]\r\n    #[Assert\\Length(min: 50, minMessage: 'The movie description should be 50 characters minimum')]\r\n    #[Groups(['movie:read', 'actor:read'])]\r\n    private ?string $description = null;\r\n\r\n    #[ORM\\Column(type: Types::DATETIME_MUTABLE)]\r\n    #[Groups(['movie:read', 'actor:read'])]\r\n    private ?\\DateTimeInterface $releaseDate = null;\r\n\r\n    #[ORM\\Column]\r\n    #[Assert\\Length(min: 15, minMessage: 'The movie should be 15 minutes minimum')]\r\n    #[Groups(['movie:read', 'actor:read'])]\r\n    private ?int $duration = null;\r\n\r\n    #[ORM\\ManyToMany(targetEntity: Actor::class, inversedBy: 'movies')]\r\n    #[Groups(['movie:read'])]\r\n    private Collection $actor;\r\n\r\n    #[ORM\\ManyToOne(inversedBy: 'movies')]\r\n    #[Groups(['movie:read'])]\r\n    private ?Category $category = null;\r\n\r\n    #[ORM\\ManyToOne(inversedBy: 'movies')]\r\n    #[Groups(['movie:read'])]\r\n    private ?user $User = null;\r\n\r\n    #[ORM\\Column]\r\n    #[Groups(['movie:read'])]\r\n    private ?bool $online = null;\r\n\r\n    public function __construct()\r\n    {\r\n        $this->actor = new ArrayCollection();\r\n    }\r\n\r\n    public function getId(): ?int\r\n    {\r\n        return $this->id;\r\n    }\r\n\r\n    public function getTitle(): ?string\r\n    {\r\n        return $this->title;\r\n    }\r\n\r\n    public function setTitle(string $title): static\r\n    {\r\n        $this->title = $title;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getDescription(): ?string\r\n    {\r\n        return $this->description;\r\n    }\r\n\r\n    public function setDescription(string $description): static\r\n    {\r\n        $this->description = $description;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getReleaseDate(): ?\\DateTimeInterface\r\n    {\r\n        return $this->releaseDate;\r\n    }\r\n\r\n    public function setReleaseDate(\\DateTimeInterface $releaseDate): static\r\n    {\r\n        $this->releaseDate = $releaseDate;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getDuration(): ?string\r\n    {\r\n        return $this->duration;\r\n    }\r\n\r\n    public function setDuration(string $duration): static\r\n    {\r\n        $this->duration = $duration;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getCategory(): ?Category\r\n    {\r\n        return $this->category;\r\n    }\r\n\r\n    public function setCategory(Category $category): static\r\n    {\r\n        $this->category = $category;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection<int, Actor>\r\n     */\r\n    public function getActor(): Collection\r\n    {\r\n        return $this->actor;\r\n    }\r\n\r\n    public function addActor(Actor $actor): static\r\n    {\r\n        if (!$this->actor->contains($actor)) {\r\n            $this->actor->add($actor);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeActor(Actor $actor): static\r\n    {\r\n        $this->actor->removeElement($actor);\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getUser(): ?user\r\n    {\r\n        return $this->User;\r\n    }\r\n\r\n    public function setUser(?user $User): static\r\n    {\r\n        $this->User = $User;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function isOnline(): ?bool\r\n    {\r\n        return $this->online;\r\n    }\r\n\r\n    public function setOnline(bool $online): static\r\n    {\r\n        $this->online = $online;\r\n\r\n        return $this;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Entity/Movie.php b/src/Entity/Movie.php
+--- a/src/Entity/Movie.php	
++++ b/src/Entity/Movie.php	
+@@ -12,6 +12,7 @@
+ use Symfony\Component\Validator\Constraints as Assert;
+ use ApiPlatform\Metadata\ApiFilter;
+ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
++use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+ 
+ #[ORM\Entity(repositoryClass: MovieRepository::class)]
+ #[ApiResource(
+@@ -19,12 +20,13 @@
+         'groups' => ['movie:read'],
+     ]
+ )]
++#[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
+ class Movie
+ {
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+     #[ORM\Column]
+-    #[Groups(['movie:read'])]
++    #[Groups(['movie:read', 'actor:read'])]
+     private ?int $id = null;
+ 
+     #[ORM\Column(length: 255)]
+@@ -57,7 +59,7 @@
+ 
+     #[ORM\ManyToOne(inversedBy: 'movies')]
+     #[Groups(['movie:read'])]
+-    private ?user $User = null;
++    private ?user $user = null;
+ 
+     #[ORM\Column]
+     #[Groups(['movie:read'])]
+@@ -159,12 +161,12 @@
+ 
+     public function getUser(): ?user
+     {
+-        return $this->User;
++        return $this->user;
+     }
+ 
+-    public function setUser(?user $User): static
++    public function setUser(?user $user): static
+     {
+-        $this->User = $User;
++        $this->user = $user;
+ 
+         return $this;
+     }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"52e93aec-048c-487c-9f6d-37db920110a0\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.gitignore\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/config/packages/security.yaml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/config/packages/security.yaml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Entity/Movie.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Entity/Movie.php\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\" synchronizationState=\"SYNCHRONIZE\">\r\n    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>\r\n    <execution />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"develop\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitToolBoxStore\">\r\n    <option name=\"recentBranches\">\r\n      <RecentBranches>\r\n        <option name=\"branchesForRepo\">\r\n          <list>\r\n            <RecentBranchesForRepo>\r\n              <option name=\"branches\">\r\n                <list>\r\n                  <RecentBranch>\r\n                    <option name=\"branchName\" value=\"feature/security\" />\r\n                    <option name=\"lastUsedInstant\" value=\"1697612231\" />\r\n                  </RecentBranch>\r\n                  <RecentBranch>\r\n                    <option name=\"branchName\" value=\"develop\" />\r\n                    <option name=\"lastUsedInstant\" value=\"1697612214\" />\r\n                  </RecentBranch>\r\n                  <RecentBranch>\r\n                    <option name=\"branchName\" value=\"feature/constraint\" />\r\n                    <option name=\"lastUsedInstant\" value=\"1695737344\" />\r\n                  </RecentBranch>\r\n                  <RecentBranch>\r\n                    <option name=\"branchName\" value=\"feature/api-platform-2\" />\r\n                    <option name=\"lastUsedInstant\" value=\"1695708940\" />\r\n                  </RecentBranch>\r\n                  <RecentBranch>\r\n                    <option name=\"branchName\" value=\"feature/slug\" />\r\n                    <option name=\"lastUsedInstant\" value=\"1695218250\" />\r\n                  </RecentBranch>\r\n                </list>\r\n              </option>\r\n              <option name=\"repositoryRootUrl\" value=\"file://$PROJECT_DIR$\" />\r\n            </RecentBranchesForRepo>\r\n          </list>\r\n        </option>\r\n      </RecentBranches>\r\n    </option>\r\n  </component>\r\n  <component name=\"GithubProjectSettings\">\r\n    <option name=\"branchProtectionPatterns\">\r\n      <list>\r\n        <option value=\"main\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"PhpWorkspaceProjectConfiguration\" interpreter_name=\"C:\\wamp64\\bin\\php\\php8.2.0\\php.exe\">\r\n    <include_path>\r\n      <path value=\"$PROJECT_DIR$/vendor/theseer/tokenizer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/clock\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/persistence\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/masterminds/html5\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/link\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/sql-formatter\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/migrations\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/orm\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/monolog/monolog\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/instantiator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/lexer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/event-manager\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/inflector\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/doctrine-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/dbal\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/deprecations\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/collections\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/common\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/cache\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/nikic/php-parser\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/myclabs/deep-copy\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-timer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/phpunit\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-invoker\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-text-template\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-code-coverage\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-file-iterator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpstan/phpdoc-parser\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/twig/extra-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/twig/twig\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/egulias/email-validator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/stopwatch\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/asset\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/translation-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/translation\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/monolog-bridge\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/form\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/messenger\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/twig-bridge\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-client\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/password-hasher\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/intl\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/process\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/notifier\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/property-info\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/debug-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/serializer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/web-profiler-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/yaml\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/security-http\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/web-link\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/var-dumper\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/maker-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/var-exporter\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/security-core\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/security-csrf\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/service-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/string\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/expression-language\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/mailer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/routing\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/runtime\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/phpunit-bridge\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-mbstring\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/doctrine-messenger\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/clock\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php83\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/doctrine-bridge\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/twig-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-foundation\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-kernel\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/options-resolver\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/flex\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/monolog-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/type\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/framework-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-icu\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/version\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/filesystem\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/css-selector\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/recursion-context\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/finder\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/property-access\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/resource-operations\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/event-dispatcher\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-client-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/object-enumerator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/object-reflector\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/dotenv\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/global-state\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/dom-crawler\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/error-handler\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/lines-of-code\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/dependency-injection\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/environment\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/browser-kit\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/deprecation-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/exporter\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/mime\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/config\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/complexity\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/console\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/validator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/diff\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/cache\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/cache-contracts\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/symfony/security-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/comparator\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/event-dispatcher\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/cli-parser\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/log\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/code-unit\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/cache\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/psr/container\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phar-io/version\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phar-io/manifest\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/webmozart/assert\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/composer\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/type-resolver\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/reflection-common\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/willdurand/negotiation\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/api-platform/core\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/nelmio/cors-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/data-fixtures\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/lcobucci/jwt\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/lcobucci/clock\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/namshi/jose\" />\r\n      <path value=\"$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle\" />\r\n    </include_path>\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2Vezr573z3Fdr6qlJhDJOP8IJ3b\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;feature/security&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\JVH\\MMI\\S5\\WR506 - Développement back avancé\\WR506\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"phpunit.xml.dist\" type=\"PHPUnitRunConfigurationType\" factoryName=\"PHPUnit\">\r\n      <TestRunner scope=\"XML\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"52e93aec-048c-487c-9f6d-37db920110a0\" name=\"Changes\" comment=\"\" />\r\n      <created>1695211529763</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1695211529763</updated>\r\n      <workItem from=\"1695211530869\" duration=\"1840000\" />\r\n      <workItem from=\"1695213406994\" duration=\"1109000\" />\r\n      <workItem from=\"1695214544312\" duration=\"4410000\" />\r\n      <workItem from=\"1695656098215\" duration=\"1093000\" />\r\n      <workItem from=\"1695707720130\" duration=\"1029000\" />\r\n      <workItem from=\"1695708776404\" duration=\"4808000\" />\r\n      <workItem from=\"1695734803955\" duration=\"4969000\" />\r\n      <workItem from=\"1695892206068\" duration=\"4415000\" />\r\n      <workItem from=\"1695971297258\" duration=\"86000\" />\r\n      <workItem from=\"1695972119913\" duration=\"65000\" />\r\n      <workItem from=\"1695973885031\" duration=\"2468000\" />\r\n      <workItem from=\"1697449841239\" duration=\"13000\" />\r\n      <workItem from=\"1697449890064\" duration=\"905000\" />\r\n      <workItem from=\"1697460693428\" duration=\"2498000\" />\r\n      <workItem from=\"1697611453466\" duration=\"857000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -5,13 +5,13 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/WR506.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/WR506.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Entity/Actor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Actor.php" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Entity/Nationality.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Nationality.php" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -25,7 +25,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="develop" />
++        <entry key="$PROJECT_DIR$" value="feat/add-deploy" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -39,24 +39,24 @@
+               <option name="branches">
+                 <list>
+                   <RecentBranch>
+-                    <option name="branchName" value="feature/security" />
+-                    <option name="lastUsedInstant" value="1697612231" />
++                    <option name="branchName" value="feature/assert" />
++                    <option name="lastUsedInstant" value="1702458792" />
+                   </RecentBranch>
+                   <RecentBranch>
+-                    <option name="branchName" value="develop" />
+-                    <option name="lastUsedInstant" value="1697612214" />
++                    <option name="branchName" value="feat/add-deploy" />
++                    <option name="lastUsedInstant" value="1702398853" />
+                   </RecentBranch>
+                   <RecentBranch>
+-                    <option name="branchName" value="feature/constraint" />
+-                    <option name="lastUsedInstant" value="1695737344" />
++                    <option name="branchName" value="main" />
++                    <option name="lastUsedInstant" value="1700640539" />
+                   </RecentBranch>
+                   <RecentBranch>
+-                    <option name="branchName" value="feature/api-platform-2" />
+-                    <option name="lastUsedInstant" value="1695708940" />
++                    <option name="branchName" value="feature/security" />
++                    <option name="lastUsedInstant" value="1697612231" />
+                   </RecentBranch>
+                   <RecentBranch>
+-                    <option name="branchName" value="feature/slug" />
+-                    <option name="lastUsedInstant" value="1695218250" />
++                    <option name="branchName" value="develop" />
++                    <option name="lastUsedInstant" value="1697612214" />
+                   </RecentBranch>
+                 </list>
+               </option>
+@@ -215,6 +215,10 @@
+       <path value="$PROJECT_DIR$/vendor/lcobucci/clock" />
+       <path value="$PROJECT_DIR$/vendor/namshi/jose" />
+       <path value="$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle" />
++      <path value="$PROJECT_DIR$/vendor/phpmd/phpmd" />
++      <path value="$PROJECT_DIR$/vendor/squizlabs/php_codesniffer" />
++      <path value="$PROJECT_DIR$/vendor/pdepend/pdepend" />
++      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+     </include_path>
+   </component>
+   <component name="ProjectColorInfo">{
+@@ -225,21 +229,21 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;feature/security&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "WebServerToolWindowFactoryState": "false",
++    "git-widget-placeholder": "feature/assert",
++    "last_opened_file_path": "//wsl$/Ubuntu/home/julie_vh/exxelia-site",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "settings.editor.selected.configurable": "preferences.pluginManager",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\JVH\MMI\S5\WR506 - Développement back avancé\WR506" />
+@@ -274,6 +278,12 @@
+       <workItem from="1697449890064" duration="905000" />
+       <workItem from="1697460693428" duration="2498000" />
+       <workItem from="1697611453466" duration="857000" />
++      <workItem from="1700641442265" duration="9109000" />
++      <workItem from="1700665348556" duration="902000" />
++      <workItem from="1700809750857" duration="1348000" />
++      <workItem from="1701069452960" duration="810000" />
++      <workItem from="1702398641834" duration="365000" />
++      <workItem from="1702451521083" duration="1293000" />
+     </task>
+     <servers />
+   </component>
