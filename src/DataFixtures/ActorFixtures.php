@@ -6,32 +6,30 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Actor;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Faker\Factory;
 
 class ActorFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-        $firstNames = ['John', 'Jane', 'Jack', 'Jill', 'Jim', 'Jenny', 'Joe', 'Jade', 'Jules', 'Jasper'];
-        $lastNames = ['Doe', 'Float', 'Black', 'White', 'Green', 'Red', 'Blue', 'Yellow', 'Orange', 'Purple'];
-        $rewards= ['Oscar', 'Golden Globe', 'César', 'Palme d\'or', 'Lion d\'or', 'Prix d\'interprétation masculine', 'Prix d\'interprétation féminine', 'Prix d\'interprétation masculine', 'Prix d\'interprétation féminine', 'Prix d\'interprétation masculine'];
+        $faker = Factory::create('fr_FR');
+        $faker->addProvider(new \Xylis\FakerCinema\Provider\Person($faker));
 
-        foreach (range(1, 10) as $i) {
+        foreach (range(1, 20) as $i) {
             $actor = new Actor();
-            $actor->setfirstName($firstNames[rand(0, 9)]);
-            $actor->setlastName($lastNames[rand(0, 9)]);
-            $actor->setreward($rewards[rand(0, 9)]);
+            $fullname = $faker->unique()->actor;
+            $actor->setfirstName(substr($fullname, 0, strpos($fullname, ' ')));
+            $actor->setlastName(substr($fullname, strpos($fullname, ' ') + 1));
+//            $actor->setreward($rewards[rand(0, 9)]);
             $actor->setNationality($this->getReference('nationality_' . rand(1, 10)));
-            $this->addReference('actor_' . $i, $actor);
-
             $manager->persist($actor);
+            $this->addReference('actor_' . $i, $actor);
         }
 
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             NationalityFixtures::class,

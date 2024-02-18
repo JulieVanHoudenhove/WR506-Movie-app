@@ -6,14 +6,15 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Movie;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Faker\Factory;
 use DateTime;
 
 class MovieFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+            $faker = Factory::create('fr_FR');
+            $faker->addProvider(new \Xylis\FakerCinema\Provider\Movie($faker));
 
         foreach (range(1, 40) as $i) {
             $movie = new Movie();
@@ -31,15 +32,14 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
                     $actors[] = $actor;
                     $movie->addActor($actor);
                 }
+                $manager->persist($movie);
             }
-            $manager->persist($movie);
-//            $this->addReference('movie_' . $i, $movie);
         }
 
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             CategoryFixtures::class,
