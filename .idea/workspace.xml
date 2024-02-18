@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="" />
+    <list default="true" id="52e93aec-048c-487c-9f6d-37db920110a0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/WR506.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/WR506.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ActorFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ActorFixtures.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +39,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/fixtures-faker" />
+                    <option name="lastUsedInstant" value="1708256344" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/asserts" />
                     <option name="lastUsedInstant" value="1702460035" />
                   </RecentBranch>
@@ -46,10 +57,6 @@
                   <RecentBranch>
                     <option name="branchName" value="develop" />
                     <option name="lastUsedInstant" value="1697612214" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="feature/constraint" />
-                    <option name="lastUsedInstant" value="1695737344" />
                   </RecentBranch>
                 </list>
               </option>
@@ -208,6 +215,8 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/vendor/xylis/faker-cinema-providers" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -218,21 +227,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/asserts&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/fixtures-faker",
+    "last_opened_file_path": "C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\JVH\MMI\S5\WR506 - Développement back avancé\WR506" />
@@ -268,7 +277,7 @@
       <workItem from="1697460693428" duration="2498000" />
       <workItem from="1697611453466" duration="857000" />
       <workItem from="1702885332959" duration="263000" />
-      <workItem from="1708252090026" duration="3589000" />
+      <workItem from="1708252090026" duration="5306000" />
     </task>
     <servers />
   </component>

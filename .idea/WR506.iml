@@ -142,6 +142,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/willdurand/negotiation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/xylis/faker-cinema-providers" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
