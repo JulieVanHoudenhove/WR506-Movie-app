@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,6 +24,11 @@ use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
         'groups' => ['movie:read'],
     ]
 )]
+#[ApiResource(security: "is_granted('ROLE_USER')")]
+#[Get]
+#[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
+#[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 #[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
 class Movie
 {
@@ -35,16 +44,20 @@ class Movie
     #[Groups(['movie:read', 'actor:read'])]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'The description is necessary')]
+    #[Assert\NotNull(message: 'The description is necessary')]
     #[Assert\Length(min: 50, minMessage: 'The movie description should be 50 characters minimum')]
     #[Groups(['movie:read', 'actor:read'])]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['movie:read', 'actor:read'])]
+    #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Assert\Type('integer')]
     #[Assert\Length(min: 15, minMessage: 'The movie should be 15 minutes minimum')]
     #[Groups(['movie:read', 'actor:read'])]
     private ?int $duration = null;
@@ -68,6 +81,30 @@ class Movie
     #[ORM\Column]
     #[Groups(['movie:read'])]
     private ?bool $online = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\Type('float')]
+    #[Assert\Range(notInRangeMessage: 'The note should be between {{ min }} and {{ max }}', min: 0, max: 10)]
+    private ?float $note = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\Type('integer')]
+    private ?int $entries = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Assert\Type('integer')]
+    private ?int $budget = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Type('string')]
+    #[Assert\NotBlank(message: 'The director is necessary')]
+    #[Assert\NotNull(message: 'The director is necessary')]
+    private ?string $director = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Type('string')]
+    #[Assert\Url(message: 'The url {{ value }} is not a valid url')]
+    private ?string $website = null;
 
     public function __construct()
     {
@@ -195,6 +232,66 @@ class Movie
     public function setOnline(bool $online): static
     {
         $this->online = $online;
+
+        return $this;
+    }
+
+    public function getNote(): ?float
+    {
+        return $this->note;
+    }
+
+    public function setNote(?float $note): static
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    public function getEntries(): ?int
+    {
+        return $this->entries;
+    }
+
+    public function setEntries(?int $entries): static
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
+    public function getBudget(): ?int
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?int $budget): static
+    {
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getDirector(): ?string
+    {
+        return $this->director;
+    }
+
+    public function setDirector(string $director): static
+    {
+        $this->director = $director;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): static
+    {
+        $this->website = $website;
 
         return $this;
     }
