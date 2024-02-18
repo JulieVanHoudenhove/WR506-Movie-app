@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Movie;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use DateTime;
 
 class MovieFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -17,7 +18,7 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
         foreach (range(1, 40) as $i) {
             $movie = new Movie();
             $movie->setTitle('Movie ' . $i);
-            $movie->setReleaseDate(new \DateTime());
+            $movie->setReleaseDate(new DateTime());
             $movie->setDuration(rand(60, 180));
             $movie->setDescription('Synopsis ' . $i);
             $movie->setDirector('director' . rand(1, 10));
@@ -46,4 +47,3 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 }
-

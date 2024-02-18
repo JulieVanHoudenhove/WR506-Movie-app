@@ -11,6 +11,7 @@ use App\Repository\NationalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,14 +47,14 @@ class Nationality
         return $this->id;
     }
 
-    public function getNationality(): ?string
+    public function getPays(): ?string
     {
-        return $this->nationality;
+        return $this->pays;
     }
 
-    public function setNationality(string $nationality): static
+    public function setPays(string $pays): static
     {
-        $this->nationality = $nationality;
+        $this->pays = $pays;
 
         return $this;
     }
