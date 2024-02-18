@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_10_2023_08_14__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/packages/api_platform.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/api_platform.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/MovieFixtures.php" afterDir="false" />
@@ -53,6 +54,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="feature/create-update-password" />
+                    <option name="lastUsedInstant" value="1708264373" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/fixtures-faker" />
+                    <option name="lastUsedInstant" value="1708256344" />
                     <option name="branchName" value="main" />
                     <option name="lastUsedInstant" value="1700640539" />
                   </RecentBranch>
@@ -71,10 +78,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/security" />
                     <option name="lastUsedInstant" value="1697612231" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1697612214" />
                   </RecentBranch>
                 </list>
               </option>
@@ -249,6 +252,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/create-update-password",
     "last_opened_file_path": "C:/JVH/MMI/S5/WR506 - Développement back avancé/WR506",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -307,6 +311,7 @@
       <workItem from="1697460693428" duration="2498000" />
       <workItem from="1697611453466" duration="857000" />
       <workItem from="1702885332959" duration="263000" />
+      <workItem from="1708252090026" duration="8576000" />
       <workItem from="1708252090026" duration="7159000" />
       <workItem from="1700641442265" duration="5911000" />
     </task>
