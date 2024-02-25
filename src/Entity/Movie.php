@@ -25,7 +25,7 @@ use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
     ]
 )]
 #[ApiResource(security: "is_granted('ROLE_USER')")]
-#[Get]
+#[Get(security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')") ]
 #[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
 #[GetCollection]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
@@ -58,7 +58,7 @@ class Movie
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Assert\Type('integer')]
-    #[Assert\Length(min: 15, minMessage: 'The movie should be 15 minutes minimum')]
+    #[Assert\GreaterThan(value: 15, message: 'The movie should be 15 minutes minimum')]
     #[Groups(['movie:read', 'actor:read'])]
     private ?int $duration = null;
 
