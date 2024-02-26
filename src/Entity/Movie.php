@@ -56,7 +56,7 @@ class Movie
     #[Assert\Type('\DateTimeInterface')]
     private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[ORM\Column(nullable: true)]
     #[Assert\Type('integer')]
     #[Assert\GreaterThan(value: 15, message: 'The movie should be 15 minutes minimum')]
     #[Groups(['movie:read', 'actor:read'])]
@@ -79,25 +79,30 @@ class Movie
     private ?bool $online = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['movie:read'])]
     #[Assert\Type('float')]
-    #[Assert\Range(notInRangeMessage: 'The note should be between {{ min }} and {{ max }}', min: 0, max: 10)]
+    #[Assert\Range(notInRangeMessage: 'The note should be between {{ min }} and {{ max }}', min: 0, max: 5)]
     private ?float $note = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['movie:read'])]
     #[Assert\Type('integer')]
     private ?int $entries = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['movie:read'])]
     #[Assert\Type('integer')]
     private ?int $budget = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['movie:read'])]
     #[Assert\Type('string')]
     #[Assert\NotBlank(message: 'The director is necessary')]
     #[Assert\NotNull(message: 'The director is necessary')]
     private ?string $director = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['movie:read'])]
     #[Assert\Type('string')]
     #[Assert\Url(message: 'The url {{ value }} is not a valid url')]
     private ?string $website = null;
@@ -148,12 +153,12 @@ class Movie
         return $this;
     }
 
-    public function getDuration(): ?string
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
-    public function setDuration(string $duration): static
+    public function setDuration(int $duration): static
     {
         $this->duration = $duration;
 
