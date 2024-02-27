@@ -12,23 +12,35 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[Vich\Uploadable]
 #[ApiResource(
     normalizationContext: [
         'groups' => ['movie:read'],
     ]
 )]
-#[ApiResource(security: "is_granted('ROLE_USER')")]
-#[Get(security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')") ]
-#[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
+#[ApiResource(
+    security: "is_granted('ROLE_USER')"
+)]
+#[Get(
+    security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')"
+) ]
+#[Put(
+    security: "is_granted('ROLE_ADMIN') or object.owner == user"
+)]
 #[GetCollection]
-#[Post(security: "is_granted('ROLE_ADMIN')")]
+#[Post(
+    inputFormats: ['multipart' => ['multipart/form-data']],
+    security: "is_granted('ROLE_ADMIN')"
+)]
 #[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
 class Movie
 {
@@ -72,7 +84,7 @@ class Movie
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[Groups(['movie:read'])]
-    private ?user $user = null;
+    private ?User $user = null;
 
     #[ORM\Column]
     #[Groups(['movie:read'])]
@@ -106,6 +118,55 @@ class Movie
     #[Assert\Type('string')]
     #[Assert\Url(message: 'The url {{ value }} is not a valid url')]
     private ?string $website = null;
+
+    #[Groups(['movie:read', 'actor:read'])]
+    #[Vich\UploadableField(mapping: 'movies', fileNameProperty: 'filename')]
+    public ?File $file = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?string $filename = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setFile(?File $file = null): void
+    {
+        $this->file = $file;
+
+        if (null !== $file) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFilename(?string $filename): void
+    {
+        $this->filename = $filename;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
 
     public function __construct()
     {
@@ -201,12 +262,12 @@ class Movie
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 
