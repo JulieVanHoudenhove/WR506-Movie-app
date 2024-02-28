@@ -1,0 +1,13 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        # Configuration spécifique à votre entité
+        MediaObject:
+            uri_prefix: /uploads/ # Préfixe pour les URLs générées
+            upload_destination: '%kernel.project_dir%/public/uploads' # Répertoire où seront stockés les fichiers
+            namer: Vich\UploaderBundle\Naming\OrignameNamer # Nommez les fichiers avec leur nom d'origine
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'
+    #        namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
