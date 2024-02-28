@@ -23,12 +23,20 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
+    operations: [
+        new Post(
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+        new Post(
+            uriTemplate: '/movies/{id}',
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+    ],
     normalizationContext: [
         'groups' => ['movie:read'],
     ]
-)]
-#[ApiResource(
-    security: "is_granted('ROLE_USER')"
 )]
 #[Get(
     security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')"
@@ -37,10 +45,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     security: "is_granted('ROLE_ADMIN') or object.owner == user"
 )]
 #[GetCollection]
-#[Post(
-    inputFormats: ['multipart' => ['multipart/form-data']],
-    security: "is_granted('ROLE_ADMIN')"
-)]
 #[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
 class Movie
 {
@@ -124,6 +128,7 @@ class Movie
     public ?File $file = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['movie:read', 'actor:read'])]
     public ?string $filename = null;
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
