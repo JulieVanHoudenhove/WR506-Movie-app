@@ -1586,6 +1586,8 @@
             "autoload": {
                 "psr-4": {
                     "Metadata\\": "src/"
+                }
+            },
             "name": "fakerphp/faker",
             "version": "v1.23.1",
             "source": {
@@ -1633,26 +1635,6 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                },
-                {
-                    "name": "Asmir Mustafic",
-                    "email": "goetas@gmail.com"
-                }
-            ],
-            "description": "Class/method/property metadata management in PHP",
-            "keywords": [
-                "annotations",
-                "metadata",
-                "xml",
-                "yaml"
-            ],
-            "support": {
-                "issues": "https://github.com/schmittjoh/metadata/issues",
-                "source": "https://github.com/schmittjoh/metadata/tree/2.8.0"
-            },
-            "time": "2023-02-15T13:44:18+00:00"
                     "name": "François Zaninotto"
                 }
             ],
