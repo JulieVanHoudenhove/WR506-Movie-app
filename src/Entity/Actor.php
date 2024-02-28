@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]
 )]
 #[ApiResource(security: "is_granted('ROLE_USER')")]
-#[Get]
+#[Get(security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")]
 #[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
 #[GetCollection]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
