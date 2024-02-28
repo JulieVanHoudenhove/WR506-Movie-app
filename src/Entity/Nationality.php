@@ -3,14 +3,23 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\NationalityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NationalityRepository::class)]
-#[ApiResource()]
+#[ApiResource(security: "is_granted('ROLE_USER')")]
+#[Get]
+#[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
+#[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 class Nationality
 {
     #[ORM\Id]
@@ -20,6 +29,8 @@ class Nationality
 
     #[ORM\Column(length: 255)]
     #[Groups(['actor:read'])]
+    #[Assert\Type('string')]
+    #[Assert\NotNull]
     private ?string $nationality = null;
 
     #[ORM\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]
@@ -39,11 +50,9 @@ class Nationality
     {
         return $this->nationality;
     }
-
     public function setNationality(string $nationality): static
     {
         $this->nationality = $nationality;
-
         return $this;
     }
 

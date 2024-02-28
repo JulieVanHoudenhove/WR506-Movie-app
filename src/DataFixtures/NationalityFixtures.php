@@ -10,9 +10,18 @@ class NationalityFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-        $country = ['Français', 'Américain', 'Anglais', 'Allemand', 'Espagnol', 'Italien', 'Japonais', 'Chinois', 'Russe', 'Canadien'];
+        $country = [
+            'Français',
+            'Américain',
+            'Anglais',
+            'Allemand',
+            'Espagnol',
+            'Italien',
+            'Japonais',
+            'Chinois',
+            'Russe',
+            'Canadien'
+        ];
 
         foreach (range(1, 10) as $i) {
             $nationality = new Nationality();

@@ -5,13 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
 
 class DemoController extends AbstractController
 {
     #[Route('/demo', name: 'app_demo')]
     public function index(): Response
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         return $this->render('demo/index.html.twig', [
             'controller_name' => 'DemoController',
             'date' => $date
