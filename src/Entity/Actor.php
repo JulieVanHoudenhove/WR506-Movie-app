@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ActorRepository::class)]
+#[Vich\Uploadable]
 #[ApiResource(
     operations: [
         new Post(
@@ -36,14 +38,19 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         'groups' => ['actor:read'],
     ]
 )]
-#[ApiResource(security: "is_granted('ROLE_USER')")]
 #[Get(
+    normalizationContext: ['groups' => ['actor:read']],
     security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')"
 )]
 #[Put(
     security: "is_granted('ROLE_ADMIN') or object.owner == user"
 )]
-#[GetCollection]
+#[GetCollection(
+    normalizationContext: ['groups' => ['actor:read']],
+)]
+#[Delete(
+    security: "is_granted('ROLE_ADMIN')"
+)]
 class Actor
 {
     #[ORM\Id]

@@ -20,12 +20,13 @@ class NationalityFixtures extends Fixture
             'Japonais',
             'Chinois',
             'Russe',
-            'Canadien'
+            'Canadien',
+            'Australien',
         ];
 
-        foreach (range(1, 10) as $i) {
+        foreach ($country as $i => $value) {
             $nationality = new Nationality();
-            $nationality->setNationality($country[rand(0, 9)]);
+            $nationality->setNationality($value);
             $manager->persist($nationality);
             $this->addReference('nationality_' . $i, $nationality);
         }

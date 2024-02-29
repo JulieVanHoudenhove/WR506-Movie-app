@@ -9,3 +9,7 @@ api_platform:
         extra_properties:
             standard_put: true
         pagination_items_per_page: 8
+        pagination_client_enabled: true
+    collection:
+        pagination:
+            enabled_parameter_name: 'pagination'

@@ -25,6 +25,7 @@ class Nationality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['actor:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
