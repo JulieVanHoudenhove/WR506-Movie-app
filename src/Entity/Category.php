@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -14,11 +17,28 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ApiResource(security: "is_granted('ROLE_USER')")]
+#[ApiResource(
+    operations: [
+        new Post(
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+        new Post(
+            uriTemplate: '/categories/{id}',
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            security: "is_granted('ROLE_ADMIN')"
+        ),
+    ],
+    security: "is_granted('ROLE_USER')",
+)]
 #[Get]
-#[Put(security: "is_granted('ROLE_ADMIN') or object.owner == user")]
+#[Put(
+    security: "is_granted('ROLE_ADMIN') or object.owner == user"
+)]
 #[GetCollection]
-#[Post(security: "is_granted('ROLE_ADMIN')")]
+#[Delete(
+    security: "is_granted('ROLE_ADMIN')"
+)]
 class Category
 {
     #[ORM\Id]
@@ -28,6 +48,7 @@ class Category
 
     #[ORM\Column(length: 255)]
     #[Assert\Type('string')]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     #[Assert\NotNull()]
     private ?string $name = null;
 
