@@ -26,6 +26,11 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
             'Prix d\'interprétation'
         ];
 
+        $filename = array(
+            'dwayne_johnson.jpg', 'emma_watson.jpg', 'jennifer_lawrence.jpg', 'paul_walker.jpg',
+            'scarlett_johansson.jpg', 'vin_diesel.jpg'
+        );
+
         foreach (range(1, 20) as $i) {
             $actor = new Actor();
             $fullname = $faker->unique()->actor;
@@ -33,6 +38,7 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
             $actor->setlastName(substr($fullname, strpos($fullname, ' ') + 1));
             $actor->setreward($rewards[rand(0, 7)]);
             $actor->setNationality($this->getReference('nationality_' . rand(1, 10)));
+            $actor->setFilename($filename[rand(0, 5)]);
             $manager->persist($actor);
             $this->addReference('actor_' . $i, $actor);
         }
