@@ -25,16 +25,17 @@ class Nationality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['actor:read'])]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['actor:read'])]
+    #[Groups(['movie:read', 'actor:read'])]
     #[Assert\Type('string')]
     #[Assert\NotNull]
     private ?string $nationality = null;
 
     #[ORM\OneToMany(mappedBy: 'nationality', targetEntity: Actor::class)]
+    #[Groups(['movie:read', 'actor:read'])]
     private Collection $actors;
 
     public function __construct()

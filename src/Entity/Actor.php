@@ -75,11 +75,11 @@ class Actor
     private Collection $movies;
 
     #[ORM\ManyToOne(inversedBy: 'actors')]
-    #[Groups(['actor:read'])]
+    #[Groups(['movie:read', 'actor:read'])]
     private ?Nationality $nationality = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['actor:read'])]
+    #[Groups(['movie:read', 'actor:read'])]
     #[Assert\Type('string')]
     private ?string $reward = null;
 
