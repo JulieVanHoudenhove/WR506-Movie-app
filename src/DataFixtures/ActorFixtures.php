@@ -28,7 +28,7 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
 
         $filename = array(
             'dwayne_johnson.jpg', 'emma_watson.jpg', 'jennifer_lawrence.jpg', 'paul_walker.jpg',
-            'scarlett_johansson.jpg', 'vin_diesel.jpg'
+            'scarlette_johansson.jpg', 'vin_diesel.jpg'
         );
 
         foreach (range(1, 20) as $i) {
