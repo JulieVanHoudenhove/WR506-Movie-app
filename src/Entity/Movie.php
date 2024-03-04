@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -43,6 +44,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 ) ]
 #[Put(
     security: "is_granted('ROLE_ADMIN') or object.owner == user"
+)]
+#[Delete(
+    security: "is_granted('ROLE_ADMIN')"
 )]
 #[GetCollection]
 #[ApiFilter(BooleanFilter::class, properties: ['online' => 'exact'])]
